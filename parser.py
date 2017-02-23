@@ -1,7 +1,5 @@
 import sys
 import os
-## This code was written by BrainSnap for #HashCode2017 ##
-
 
 ## This code was written by BrainSnap for #HashCode2017 ##
 
@@ -31,30 +29,43 @@ class Cache(object):
         super(Cache, self).__init__()
         self.videos_size = v
 
-def main():
-    pass
-
-if __name__ == "__main__":
-    main()
 
 def parser(filename):
 
     with open (filename, 'r') as file1:
 
-        vid, endp, req, cachenum, cachsize = file1.readline().strip().split(' ')
-        vid, endp, req, cachenum, cachsize = [int(vid),int(endp), int(req), int(cachenum), int(cachsize)]
-        #Here we fill the array of videos sizes and indexes
-        videos = [int(c_temp) for c_temp in file1.readline().strip().split(' ')]
+        global c_size
+        global v_size
+        global endpoints
 
-        for x in endp:
+        vid, endp, req, cachenum, c_size = file1.readline().strip().split(' ')
+        vid, endp, req, cachenum, c_size = [int(vid),int(endp), int(req), int(cachenum), int(c_size)]
+        #Here we fill the array of videos sizes and indexes
+        v_sizes = [int(c_temp) for c_temp in file1.readline().strip().split(' ')]
+
+        for i in range(0, endp):
             c = [int(i) for i in file1.readline().strip().split(' ')]
             dic = {}
-            for y in c[1]:
+            for y in range(0, c[1]):
                 ca = [int(i) for i in file1.readline().strip().split(' ')]
                 dic[ca[0]] = ca[1]
             e = Endpoint(c[0], dic)
             endpoints.append(e)
 
-        for x in req:
+
+        for i in range(0, req):
+
             c = [int(i) for i in file1.readline().strip().split(' ')]
-            endpoints[c[1]].video_requests[c[0]] = c[3]
+            endpoints[c[1]].video_requests[c[0]] = c[2]
+def main():
+
+    parser("./prueba.in")
+    for i in range(0, len(endpoints)):
+        print endpoints[i].dc_latency
+        print endpoints[i].video_requests
+    print v_sizes
+    print c_size
+
+
+if __name__ == "__main__":
+    main()
